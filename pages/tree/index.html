@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <link href="/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <div class="fs">
+        <div class="file-list-container">
+            <div class="fsFont">文件列表如下</div>
+            <div class="fileList fsFont"></div>
+        </div>
+    </div>
+
+    <script>
+        async function init() {
+            let fileListCon = $(".fileList");
+            let fileList = await fileDealer.getFileList();
+            fileListDOM(fileListCon, fileList);
+
+
+        };
+        function fileListDOM(con, fileList) {
+            for (let file of fileList.children) {
+                if (file.type == 'dir') {
+                    let originElem = "<div class='file-item dir'>" + file.name + "</div>";
+                    let elem = $(originElem);
+                    con.append(elem);
+                    elem.ext = false;
+                    let path = file.path;
+                    elem.click(async function (event) {
+                        event.stopPropagation();
+                        if (!elem.ext) {
+                            elem.addClass('active');
+                            let fList = await fileDealer.getFileList(path);
+                            fileListDOM(elem, fList);
+                            elem.ext = true;
+                        } else {
+                            elem.removeClass('active');
+                            elem.html(file.name);
+                            elem.ext = false;
+                        }
+                    });
+                } else {
+                    let originElem = "<div class='file-item f'>" + file.name + "</div>";
+                    let elem = $(originElem);
+                    con.append(elem);
+                    elem.click((e) => { e.stopPropagation(); });
+                }
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+
+.fs .file-list{
+    padding-top: 30px;
+}
+
+.fs .file-item{
+    position: relative;
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+.fs .dir::before{
+    content:'+';
+    position: absolute;
+    left:0;
+}
+
+.fs .dir.active::before{
+    content:' -';
+    position: absolute;
+    left:2px;
+}
+
+.fs .backBtn{
+    margin-left: 100px;
+    cursor: pointer;
+}
+.fs .backBtn.disable{
+    color:#999;
+    cursor: default;
+}
+

@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <link href="/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" />
+    <script src="/js/jquery.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <div class="fs pic">
+        <div class="file-list-container">
+            <div class="fsFont">文件列表如下 <span class="backBtn">返回</span></div>
+            <div class="file-list fsFont"></div>
+        </div>
+ 
+        <div class="file-list-container">
+
+            <div class="drag-file-cotainer">
+                <div class="fsFont">拖拽文件请入此处</div>
+            </div>
+        </div> 
+    </div>
+
+     <script src="drag.js"></script> 
+    <script>
+        let returnDir = [];
+        let returnBtn = $('.backBtn');
+        returnBtn.addClass('disable');
+        returnBtn.click(async function () {
+            if(returnDir.length==0){
+                return false;
+            }
+            let fileListCon = $(".file-list");
+            let fileList = await fileDealer.getFileList(returnDir.pop());
+            fileListDOM(fileListCon, fileList);
+            if (returnDir.length == 0) {
+                returnBtn.addClass('disable');
+            }
+        });
+
+        async function init() {
+            let fileListCon = $(".file-list");
+            let fileList = await fileDealer.getFileList();
+            fileListDOM(fileListCon, fileList);
+
+
+        };
+        function fileListDOM(con, fileList) {
+            con.html('');
+            for (let file of fileList.children) {
+                if (file.type == 'dir') {
+                    let originElem = "<div class='file-item dir'>" + "<span>" + file.name + "</span>" + "</div>";
+                    let elem = $(originElem);
+                    con.append(elem);
+                    let path = file.path;
+                    let pPath = file.pPath;
+                    elem.click(async function (event) {
+                        event.stopPropagation();
+                        returnDir.push(pPath);
+                        returnBtn.removeClass('disable');
+                        let fList = await fileDealer.getFileList(path);
+                        fileListDOM(con, fList);
+                    });
+                } else {
+                    let originElem = "<div class='file-item f'>" + "<span>" + file.name + "</span>" + "</div>";
+                    let elem = $(originElem);
+                    con.append(elem);
+                    elem.click((e) => { e.stopPropagation(); });
+                }
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
