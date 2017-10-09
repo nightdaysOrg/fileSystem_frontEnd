@@ -78,7 +78,7 @@
         }
     };
 
-    w.serviceUrl = 'https://localhost:8972/fileSystem';
+    w.serviceUrl = 'https://www.nightdays.net:8972/fileSystem';
 
     w.fileDealer = {
         getFileList(dir) {
