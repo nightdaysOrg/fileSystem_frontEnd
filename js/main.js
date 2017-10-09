@@ -78,7 +78,7 @@
         }
     };
 
-    w.serviceUrl = 'http://localhost:8973/fileSystem';
+    w.serviceUrl = 'https://localhost:8972/fileSystem';
 
     w.fileDealer = {
         getFileList(dir) {
