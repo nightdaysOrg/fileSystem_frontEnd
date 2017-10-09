@@ -21,8 +21,18 @@
         let files = e.dataTransfer.files;
         let file = files[0];
         let fd = new FormData();
-        fd.append('file1',file);
-        await fileDealer.uploadFile(fd);
+        fd.append('filePath', currentDir);
+        fd.append('file', file);
+        let res = await fileDealer.uploadFile(fd);
+        if (res.code == 'success') {
+            alert("上传成功");
+            let fileListCon = $(".file-list");
+            let fileList = await fileDealer.getFileList(currentDir);
+            fileListDOM(fileListCon, fileList);
+            if (returnDir.length == 0) {
+                returnBtn.addClass('disable');
+            }
+        }
 
 
         // let fileReader = new FileReader();

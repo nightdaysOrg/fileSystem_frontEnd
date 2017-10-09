@@ -10,29 +10,35 @@
 <body>
     <div class="fs pic">
         <div class="file-list-container">
+            <div class="fsFont">当前目录: <span class="currentPath"></span></div>
             <div class="fsFont">文件列表如下 <span class="backBtn">返回</span></div>
             <div class="file-list fsFont"></div>
         </div>
- 
+
         <div class="file-list-container">
 
             <div class="drag-file-cotainer">
                 <div class="fsFont">拖拽文件请入此处</div>
             </div>
-        </div> 
+        </div>
     </div>
 
-     <script src="drag.js"></script> 
     <script>
+        let currentDir = "/";
+        let currentDirElem = $(".currentPath");
+        currentDirElem.html(currentDir);
+
         let returnDir = [];
         let returnBtn = $('.backBtn');
         returnBtn.addClass('disable');
         returnBtn.click(async function () {
-            if(returnDir.length==0){
+            if (returnDir.length == 0) {
                 return false;
             }
             let fileListCon = $(".file-list");
-            let fileList = await fileDealer.getFileList(returnDir.pop());
+            currentDir = returnDir.pop();
+            currentDirElem.html(currentDir);
+            let fileList = await fileDealer.getFileList(currentDir);
             fileListDOM(fileListCon, fileList);
             if (returnDir.length == 0) {
                 returnBtn.addClass('disable');
@@ -57,6 +63,8 @@
                     let pPath = file.pPath;
                     elem.click(async function (event) {
                         event.stopPropagation();
+                        currentDir = path;
+                        currentDirElem.html(currentDir);
                         returnDir.push(pPath);
                         returnBtn.removeClass('disable');
                         let fList = await fileDealer.getFileList(path);
@@ -73,6 +81,7 @@
 
         init();
     </script>
+    <script src="drag.js"></script>
 </body>
 
 </html>
