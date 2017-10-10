@@ -78,9 +78,6 @@
         }
     };
 
-    // w.serviceUrl = 'https://www.nightdays.net:8972/fileSystem';
-    w.serviceUrl = 'http://localhost:8080/fileSystem';
-
     w.fileDealer = {
         getFileList(dir) {
             let param = {};
