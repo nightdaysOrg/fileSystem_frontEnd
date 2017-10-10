@@ -19,12 +19,26 @@
     word-wrap: break-word;
     top:0;right:0;bottom:0;left:0;
     margin: auto;
+}
 
+.fs .file-item .deleteBtn {
+    position: absolute;
+     top:0;right:0;left:0;bottom:0;
+     background-color: #c5defc;
+     opacity: .5;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .fs .file-item.dir{
     border: 1px solid #aaa;
     background:#FFF7B2;
+    /* cursor: pointer; */
+}
+
+.fs .file-item.f {
+    border: 1px solid #000;
+    background: #fff;
     cursor: pointer;
 }
 
@@ -54,5 +68,18 @@
     width: 112px;
     height: 19px;
     margin:auto;
+}
+
+.fs .deleteButton {
+    border: 1px solid #999;
+    background-color:#eee;
+    padding: 2px 4px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.fs .deleteButton:hover{
+    background-color: #bbb;
+    color: #eee;
 }
 

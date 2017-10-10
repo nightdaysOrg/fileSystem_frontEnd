@@ -22,7 +22,9 @@
         let file = files[0];
         let fd = new FormData();
         fd.append('filePath', currentDir);
-        fd.append('file', file);
+        for(let f of files){
+            fd.append(f.name,f);
+        }
         let res = await fileDealer.uploadFile(fd);
         if (res.code == 'success') {
             alert("上传成功");
@@ -33,17 +35,6 @@
                 returnBtn.addClass('disable');
             }
         }
-
-
-        // let fileReader = new FileReader();
-        // fileReader.readAsArrayBuffer(file);
-        // fileReader.onload = async function(e){
-        //     console.log('上传结束');
-        //    let file = {
-        //        file : e.target.result
-        //    };
-        //    await fileDealer.uploadFile(file);
-        // }
 
     });
 })();

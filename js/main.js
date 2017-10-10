@@ -78,7 +78,8 @@
         }
     };
 
-    w.serviceUrl = 'https://www.nightdays.net:8972/fileSystem';
+    // w.serviceUrl = 'https://www.nightdays.net:8972/fileSystem';
+    w.serviceUrl = 'http://localhost:8080/fileSystem';
 
     w.fileDealer = {
         getFileList(dir) {
@@ -91,6 +92,9 @@
         },
         uploadFile(param) {
             return http.httpRequest(`${serviceUrl}/uploadFile`, param);
+        },
+        deleteFile(param) {
+            return http.httpRequest(`${serviceUrl}/deleteFile`, param);
         }
     }
 

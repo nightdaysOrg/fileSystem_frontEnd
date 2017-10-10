@@ -17,6 +17,8 @@
 
         <div class="file-list-container">
 
+            <div><a class="deleteButton fsFont">删除</a></div>
+
             <div class="drag-file-cotainer">
                 <div class="fsFont">拖拽文件请入此处</div>
             </div>
@@ -24,6 +26,8 @@
     </div>
 
     <script>
+        let chooseElem = null;
+        let chooseDir = null;
         let currentDir = "/";
         let currentDirElem = $(".currentPath");
         currentDirElem.html(currentDir);
@@ -49,19 +53,26 @@
             let fileListCon = $(".file-list");
             let fileList = await fileDealer.getFileList();
             fileListDOM(fileListCon, fileList);
-
-
         };
+
+        async function deleteFile() {
+            let fileListCon = $(".file-list");
+            let res = await fileDealer.deleteFile({ "filePath": chooseDir });
+            let fileList = await fileDealer.getFileList(currentDir);
+            fileListDOM(fileListCon, fileList);
+        };
+
         function fileListDOM(con, fileList) {
             con.html('');
             for (let file of fileList.children) {
+                let elem = null;
                 if (file.type == 'dir') {
                     let originElem = "<div class='file-item dir'>" + "<span>" + file.name + "</span>" + "</div>";
-                    let elem = $(originElem);
+                    elem = $(originElem);
                     con.append(elem);
                     let path = file.path;
                     let pPath = file.pPath;
-                    elem.click(async function (event) {
+                    elem.dblclick(async function (event) {
                         event.stopPropagation();
                         currentDir = path;
                         currentDirElem.html(currentDir);
@@ -72,12 +83,31 @@
                     });
                 } else {
                     let originElem = "<div class='file-item f'>" + "<span>" + file.name + "</span>" + "</div>";
-                    let elem = $(originElem);
+                    elem = $(originElem);
                     con.append(elem);
-                    elem.click((e) => { e.stopPropagation(); });
                 }
+                elem.click(function (event) {
+                    if (chooseElem == elem) {
+                        return;
+                    }
+
+                    if (chooseElem) {
+                        elem.append('<div class="deleteBtn"></div>');
+                        chooseElem.children('.deleteBtn').remove();
+                        chooseElem = elem;
+                    } else {
+                        elem.append('<div class="deleteBtn"></div>');
+                        chooseElem = elem;
+                    }
+
+                    chooseDir = file.path;
+                });
             }
         }
+
+        $('.deleteButton').click(function () {
+            deleteFile();
+        });
 
         init();
     </script>
